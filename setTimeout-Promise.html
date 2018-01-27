@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        //test1
+        for (var a = 0; a < 5; a++) {
+            console.log(a)  //0,1,2,3,4,
+        }
+
+        //test2
+        for (var b = 0; b < 5; b++) {
+            setTimeout(() => {
+                console.log(b)  //每隔一秒输出一个值5,5,5,5,5
+            }, 1000 * b);
+        }
+
+        //test3
+        for (var c = 0; c < 5; c++) {
+            (function (c) {
+                setTimeout(() => {
+                    console.log(c)
+                }, c * 1000);
+            })(c)
+        }     //每隔一秒输出一个值 0,1,2,3,4 
+
+
+        //test4
+        for (var d = 0; d < 5; d++) {
+            (function () {
+                setTimeout(function () {
+                    console.log(d);  //每隔一秒输出一个值5,5,5,5,5，没有引用到d
+                }, d * 1000);
+            })(d);
+        }
+
+
+        //test5
+        for (var e = 0; e < 5; e++) {
+            setTimeout((function (e) {
+                console.log(e);
+            })(e), e * 1000);
+        }   //立即输出0,1,2,3,4,e应该是undefined，是立即执行函数
+
+
+
+        //test6
+        setTimeout(function () {
+            console.log(1)
+        }, 0);
+        new Promise(function executor(resolve) {
+            console.log(2);
+            for (var i = 0; i < 10000; i++) {
+                i == 9999 && resolve();
+            }
+            console.log(3);
+        }).then(function () {
+            console.log(4);
+        });
+        console.log(5);   //输出2,3,5,4,1
+    </script>
+</body>
+
+</html>
